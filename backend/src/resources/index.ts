@@ -36,5 +36,5 @@ async function seedRoles() {
   }
 }
 
-export default db;
 seedRoles();
+export default db;
