@@ -1,0 +1,35 @@
+{
+  "name": "docteuron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "nodemon": "nodemon server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdnacer/Docteuron.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdnacer/Docteuron/issues"
+  },
+  "homepage": "https://github.com/abdnacer/Docteuron#readme",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^18.14.1",
+    "nodemon": "^2.0.20",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "envalid": "^7.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0"
+  }
+}
