@@ -13,6 +13,7 @@ interface UserBody {
   description: string;
   email: string;
   password: string;
+  confirm_password: string
   isBanned: boolean;
 }
 
