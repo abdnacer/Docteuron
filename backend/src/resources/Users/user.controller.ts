@@ -6,9 +6,11 @@ import matches from "validator/lib/matches";
 import isMobilePhone from "validator/lib/isMobilePhone";
 import isStrongPassword from "validator/lib/isStrongPassword";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 // ErrorHandler
 import HttpException from "../../middleware/errorHandler/HttpException";
 import Mailer from "../../utils/mailer";
+import env from "../../utils/validateenv";
 // Models
 import db from "../../resources";
 
@@ -58,7 +60,8 @@ class ControllerUser {
       } else {
         const userExists = await db.User.findOne({ email });
         const phoneExists = await db.User.findOne({ phone });
-        if (userExists) return next(new HttpException(400, "User Already Exists"));
+        if (userExists)
+          return next(new HttpException(400, "User Already Exists"));
         else {
           if (phoneExists)
             return next(new HttpException(400, "Phone Already Exists"));
@@ -88,10 +91,9 @@ class ControllerUser {
                 });
 
                 if (user) {
-                  Mailer.SendMail('verify-email', email)
-                  res.json('Check Your Email')
-                }
-                else return next(new HttpException(400, "User Not Registed"));
+                  Mailer.SendMail("verify-email", email);
+                  res.json("Welcome" + nameComplete + "Check Your Email");
+                } else return next(new HttpException(400, "User Not Registed"));
               } else
                 return next(
                   new HttpException(400, "Not Role Patient in Database ")
@@ -191,8 +193,10 @@ class ControllerUser {
               description: description,
             });
 
-            if (user) res.json("Welcome " + nameComplete);
-            else return next(new HttpException(400, "User Not Registed"));
+            if (user) {
+              Mailer.SendMail("verify-email", email);
+              res.json("Welcome " + nameComplete + " Check Your Email");
+            } else return next(new HttpException(400, "User Not Registed"));
           } else
             return next(
               new HttpException(400, "Not Role Patient in Database ")
@@ -202,9 +206,16 @@ class ControllerUser {
     }
   };
 
-  public VerifyEmail = (req: Request, res: Response, next: NextFunction) => {
-    // const verifyToken
-    res.send('Verify-Email')
+  public VerifyEmail = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    // const token: any = req.params;
+    // const verifyToken: any = await jwt.verify(token, env.Node_ENV);
+
+    // const verifyUser = await db.User.findOne({ email: verifyToken.email });
+    // if(verifyUser && verifyUser)
   };
 
   public Login = (req: Request, res: Response, next: NextFunction) => {
