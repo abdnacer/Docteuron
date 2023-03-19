@@ -94,7 +94,7 @@ class ControllerUser {
 
                 if (user) {
                   Mailer.SendMail("verify-email", email);
-                  res.json("Welcome " + nameComplete + " Check Your Email");
+                  res.json("Welcome" + nameComplete + "Check Your Email");
                 } else return next(new HttpException(400, "User Not Registed"));
               } else
                 return next(
