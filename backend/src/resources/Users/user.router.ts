@@ -16,7 +16,7 @@ class RouterUser {
     this.router.post("/register/doctor", UserController.RegisterDoctor);
     this.router.get("/verify-email/:token", UserController.VerifyEmail);
     this.router.post("/login", UserController.Login);
-    this.router.post("reset-password", UserController.ResetPassword);
+    this.router.post("/reset-password", UserController.ResetPassword);
     this.router.post("/forgot-Password", UserController.ForgotPassword);
     this.router.get("/verify-forgot-password/:token",UserController.VerifyForgotPassword);
     this.router.post("/form-forgot-password",UserController.FormForgotPassword);
