@@ -393,7 +393,7 @@ class ControllerUser {
   };
 
   public Logout = (req: Request, res: Response, next: NextFunction) => {
-    Storage.clear()
+    res.send("Logout");
   };
 
   private generateToken = (id: string) => {

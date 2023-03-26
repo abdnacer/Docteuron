@@ -1,119 +1,107 @@
-// Dependcies
 import { NextFunction, Request, Response } from "express";
-import isEmail from "validator/lib/isEmail";
-import isDate from "validator/lib/isDate";
-import matches from "validator/lib/matches";
-import isMobilePhone from "validator/lib/isMobilePhone";
-import isStrongPassword from "validator/lib/isStrongPassword";
-// import bcrypt from 'bcryptjs'
-// ErrorHandler
 import HttpException from "../../middleware/errorHandler/HttpException";
-// Models
 import db from "../../resources";
 
-class ControllerUser {
-  public RegisterPatient = async (
+class ControllerSpecialite {
+  public addSpecialite = async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    const {
-      nameComplete,
-      phone,
-      dateBirthday,
-      city,
-      cin,
-      address,
-      email,
-      password,
-      confirm_password,
-    } = req.body;
+    const { name } = req.body;
 
-    if (
-      nameComplete == "" ||
-      phone == "" ||
-      dateBirthday == "" ||
-      city == "" ||
-      cin == "" ||
-      address == "" ||
-      email == "" ||
-      password == "" ||
-      confirm_password == ""
-    )
-      return next(new HttpException(400, "Please Fill All The Fields"));
+    if (name == "")
+      return next(
+        new HttpException(400, "Please Fill The Fields Name Specialite")
+      );
     else {
-      if (!isEmail(email)) {
-        return next(new HttpException(400, "Invalid input Email"));
-      } else if (!isDate(dateBirthday)) {
-        return next(new HttpException(400, "Invalid input Date Birthday"));
-      } else if (!matches(cin, /^[A-Z]{2}\d{5,7}$/)) {
-        return next(new HttpException(400, "Invalid input CIN"));
-      } else if (!isMobilePhone(phone)) {
-        return next(new HttpException(400, "Invalid input Phone"));
-      } else if (!isStrongPassword(password)) {
-        return next(new HttpException(400, "Invalid input Password"));
-      } else if (!isStrongPassword(confirm_password)) {
-        return next(new HttpException(400, "Invalid input Confirm Password"));
-      } else {
-        const useExists = await db.User.findOne({ email });
-        const phoneExists = await db.User.findOne({ phone });
-        if (useExists) return new HttpException(400, "User Already Exists");
-        else {
-          if (phoneExists)
-            return new HttpException(400, "Phone Already Exists");
-          else {
-            if (password !== confirm_password)
-              return next(new HttpException(400, "Password Not Matched"));
-            else {
-                
-            }
-          }
-        }
+      const specialiteFound = await db.Specialite.findOne({ name });
+
+      if (specialiteFound)
+        return next(new HttpException(400, "Specialite Déja Exsits"));
+      else {
+        const addSpecialite = await db.Specialite.create({
+          name: name,
+          approve: false,
+        });
+
+        if (!addSpecialite)
+          return next(new HttpException(400, "Specialite Not Created"));
+        else res.json("Specialite Created");
       }
     }
   };
 
-  public RegisterDoctor = (req: Request, res: Response, next: NextFunction) => {
-    // const {nameComplete, phone, dateBirthday, city, }
-  };
-
-  public VerifyEmail = (req: Request, res: Response, next: NextFunction) => {
-    res.send("Verify-Email");
-  };
-
-  public Login = (req: Request, res: Response, next: NextFunction) => {
-    res.send("Login");
-  };
-
-  public ResetPassword = (req: Request, res: Response, next: NextFunction) => {
-    res.send("Reset-Password");
-  };
-
-  public ForgotPassword = (req: Request, res: Response, next: NextFunction) => {
-    res.send("Forgot Password");
-  };
-
-  public VerifyForgotPassword = (
+  public afficherSpecialite = async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    res.send("Verify Forgot Password");
+    const getSpecialiteApprove = await db.Specialite.aggregate([
+      { $match: { approve: true } },
+    ]);
+
+    if (getSpecialiteApprove) res.json(getSpecialiteApprove);
+    else return next(new HttpException(400, "Specialite Not Found"));
   };
 
-  public FormForgotPassword = (
+  public afficherSpecialiteAdmin = async (
     req: Request,
     res: Response,
     next: NextFunction
   ) => {
-    res.send("Form Forgot Password");
+    const getAllSpecialite = await db.Specialite.find();
+
+    if (getAllSpecialite) res.json(getAllSpecialite);
+    else return next(new HttpException(400, "Specialite Not Found"));
   };
 
-  public Logout = (req: Request, res: Response, next: NextFunction) => {
-    res.send("Logout");
+  public updateSpecialite = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+    const { name, approve } = req.body;
+
+    if (name == "")
+      return next(
+        new HttpException(400, "Please Fill The Fields Name Specialite")
+      );
+    else {
+
+      const specialiteUpdate = await db.Specialite.findByIdAndUpdate(
+        { _id: id },
+        { $set: { name, approve: approve } }
+      );
+
+      if(!specialiteUpdate) return next(new HttpException(400, 'Specialite Not Updated'))
+      else res.json('Specialite Updated')
+    }
+  };
+
+  public deleteSpecialite = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+
+    const findId = await db.Specialite.findById({ _id: id });
+
+    if (!findId) return next(new HttpException(400, "Id Not Correct"));
+    else {
+      const specialiteDelete = await db.Specialite.findByIdAndDelete({
+        _id: id,
+      });
+
+      if (!specialiteDelete)
+        return next(new HttpException(400, "Specialiete Not Deleted"));
+      else res.json("Specialite Deleted");
+    }
   };
 }
 
-const UserController = new ControllerUser();
+const SpecialiteController = new ControllerSpecialite();
 
-export default UserController;
+export default SpecialiteController;
