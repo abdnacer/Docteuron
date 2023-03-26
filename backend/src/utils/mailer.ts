@@ -23,7 +23,7 @@ class Mail {
       html: `
         <div style='height: 150px; width: 100%;'>
           <h3>Hy dear,</h3>
-          <p>welcome to <span style='font-weight: bold;'>MARHABA</span>, Click Button For Active Your Account.</p>
+          <p>welcome to <span style='font-weight: bold;'>DOCTEURON</span>, Click Button For Active Your Account.</p>
           <a href="http://localhost:${env.PORT}/api/auth/${path}/${token}" style="height: 60px; background-color: #199319; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; margin-bottom: 10px; margin-top: 10px;">Active</a> 
         </div>`,
     };

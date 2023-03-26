@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import errorMiddleware from "../../middleware/errorHandler/error.middlewre";
 import UserController from "./user.controller";
 
-class RouterUser {
+class RouterAuth {
   public router: express.Router;
 
   constructor() {
@@ -28,6 +28,6 @@ class RouterUser {
   }
 }
 
-const UserRouter = new RouterUser().router;
+const AuthRouter = new RouterAuth().router;
 
-export default UserRouter
+export default AuthRouter

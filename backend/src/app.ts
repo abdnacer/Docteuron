@@ -1,9 +1,14 @@
+// import Dependcies
 import "dotenv/config";
 import express from "express";
+// import Conex && Models
 import { connectDB } from "./config/db";
-import env from "./utils/validateenv";
-import UserRouter from "./resources/Users/user.router";
 import "./resources";
+// import Validation env
+import env from "./utils/validateenv";
+// import Router
+import AuthRouter from "./resources/Users/user.router";
+import SpecialiteRouter from "./resources/Specialites/specialite.router";
 
 class App {
   public app: express.Application;
@@ -22,7 +27,8 @@ class App {
   }
 
   private Router() {
-    this.app.use("/api/auth", UserRouter);
+    this.app.use("/api/auth", AuthRouter);
+    this.app.use("/api/user", SpecialiteRouter)
   }
 
   private DB() {
