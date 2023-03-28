@@ -1,13 +1,14 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import RendezVousBody from "../../utils/Interface/rendezVous.interface";
 
 const rendezVousSchema = new Schema<RendezVousBody>({
   idDoctor: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Role",
     required: true,
     trim: true,
   },
-  idClient: {
+  idPatient: {
     type: String,
     required: true,
     trim: true,
@@ -17,14 +18,14 @@ const rendezVousSchema = new Schema<RendezVousBody>({
     required: true,
     trim: true,
   },
-  time: {
+  heure: {
     type: String,
     required: true,
     trim: true,
   },
-  phone: String
+  phone: String,
 });
 
-const RendezVous = model<RendezVousBody>('RendezVous', rendezVousSchema)
+const RendezVous = model<RendezVousBody>("RendezVous", rendezVousSchema);
 
-export default RendezVous
+export default RendezVous;
