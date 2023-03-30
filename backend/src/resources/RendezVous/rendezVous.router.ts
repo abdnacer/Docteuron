@@ -14,8 +14,9 @@ class RouterRendezVous {
     private RendezVous(){
         this.router.post("/rendez-vous", RendezVousController.AddRendezVous)
         this.router.get("/rendez-vous", RendezVousController.afficherRendezVous)
-        this.router.put("/rendez-vous")
-        this.router.delete("/rendez-vous")
+        this.router.get("/rendez-vous-admin", RendezVousController.afficherRendezVousAdmin)
+        this.router.put("/rendez-vous/:id", RendezVousController.modifierRendezVous)
+        this.router.delete("/rendez-vous/:id", RendezVousController.deleteRendezVous)
     }
 
     private errorMiddleware(){

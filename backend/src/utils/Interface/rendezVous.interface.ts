@@ -1,7 +1,7 @@
 interface RendezVousBody {
-  idDoctor: object;
+  idDoctor: string;
   idPatient: string;
-  date: Date;
+  date: string;
   heure: string;
   phone: string;
 }

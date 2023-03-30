@@ -14,37 +14,52 @@ class ControllerRendezVous {
     res: Response,
     next: NextFunction
   ) => {
-    const { idDoctor, idPatient, date, heure, phone } = req.body;
+    const { idDoctor, date, heure, phone } = req.body;
+    const token: any = Storage("token");
 
-    if (idDoctor == "" || idPatient == "" || date == "" || heure == "")
+    if (idDoctor == "" || date == "" || heure == "")
       return next(new HttpException(400, "Please Fill All The Fields"));
     else {
       if (!isDate(date))
-        return next(new HttpException(400, "Invalid input Date Birthday"));
+        return next(new HttpException(400, "Invalid input Date"));
       else {
         const idDoctorExists = await db.User.findById({ _id: idDoctor });
-        const idPatientExists = await db.User.findById({ _id: idPatient });
         const phoneExsts = await db.RendezVous.findOne({ phone });
+        const verifyToken: any = await jwt.verify(token, env.Node_ENV);
 
-        if (phoneExsts) {
-          return next(new HttpException(400, "Phone Deja Exists"));
-        } else {
-          if (idDoctorExists && idPatientExists) {
-            const createRendezVous = await db.RendezVous.create({
-              idDoctor: idDoctor,
-              idPatient: idPatient,
-              date: date,
-              heure: heure,
-              phone: phone,
-            });
-
-            if (createRendezVous) {
-              res.json("Rendez-vous Succes");
-            } else {
-              return next(new HttpException(400, "Rendez-vous Not Success"));
-            }
+        if (!verifyToken)
+          return next(new HttpException(400, "Your Are Not Logged"));
+        else {
+          if (phoneExsts) {
+            return next(new HttpException(400, "Phone Deja Exists"));
           } else {
-            return next(new HttpException(400, "User Not Found"));
+            if (idDoctorExists) {
+              const findDoctorForRendezVous = await db.RendezVous.findOne({
+                idDoctor: idDoctor,
+              });
+
+              if (findDoctorForRendezVous)
+                return next(
+                  new HttpException(400, "You Are Reserved Rendez-vous")
+                );
+              else {
+                const createRendezVous = await db.RendezVous.create({
+                  idDoctor: idDoctor,
+                  idPatient: verifyToken.id,
+                  date: date,
+                  heure: heure,
+                  phone: phone,
+                });
+
+                if (createRendezVous) {
+                  res.json("Rendez-vous Succes");
+                } else {
+                  return next(
+                    new HttpException(400, "Rendez-vous Not Success")
+                  );
+                }
+              }
+            }
           }
         }
       }
@@ -66,10 +81,87 @@ class ControllerRendezVous {
         const findIdUser = await db.User.findById(verifyToken.id);
 
         if (!findIdUser) return next(new HttpException(400, "User Not Found"));
-        const getRendezVous = await db.RendezVous.find({
-          idDoctor: verifyToken.id,
+        else {
+          const getRendezVous = await db.RendezVous.find({
+            idDoctor: findIdUser.id,
+          });
+          if (!getRendezVous)
+            return next(new HttpException(400, "Rendez-vous Not Found"));
+          else res.json(getRendezVous);
+        }
+      }
+    }
+  };
+
+  public afficherRendezVousAdmin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const getAllRendezVous = await db.RendezVous.find();
+
+    if (!getAllRendezVous)
+      return next(new HttpException(400, "Rendez-Vous Not Found"));
+    else res.json(getAllRendezVous);
+  };
+
+  public modifierRendezVous = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+    const { date, heure } = req.body;
+    // const token: any = Storage("token");
+
+    if (!id)
+      return next(new HttpException(400, "id The This Rendez-vous Not Found"));
+    else {
+      if (date == "" || heure == "")
+        return next(new HttpException(400, "Please Fill All The Fields"));
+      else {
+        if (!isDate(date))
+          return next(new HttpException(400, "Invalid input Date"));
+        else {
+          const findIdRendezVous = await db.RendezVous.findById({ _id: id });
+
+          if (!findIdRendezVous)
+            return next(new HttpException(400, "Rendez-Vous Not Found"));
+          else {
+            const updateRendezVous = await db.RendezVous.findByIdAndUpdate(
+              { _id: id },
+              { $set: { date, heure } }
+            );
+            if (!updateRendezVous)
+              return next(new HttpException(400, "Rendez-Vous Not Updated"));
+            else res.json("Rendez-Vous Updated");
+          }
+        }
+      }
+    }
+  };
+
+  public deleteRendezVous = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { id } = req.params;
+
+    if (!id) return next(new HttpException(400, "Id Not Found"));
+    else {
+      const findId = await db.RendezVous.findById({ _id: id });
+
+      if (!findId)
+        return next(new HttpException(400, "Data Rendez-Vous Not Found"));
+      else {
+        const rendezVousDeleted = await db.RendezVous.findByIdAndDelete({
+          _id: id,
         });
-        res.send(getRendezVous);
+
+        if (!rendezVousDeleted)
+          return next(new HttpException(400, "Rendez-Vous Not Deleted"));
+        else res.json("Rendez-Vous Deleted");
       }
     }
   };

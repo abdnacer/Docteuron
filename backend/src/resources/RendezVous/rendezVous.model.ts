@@ -3,8 +3,7 @@ import RendezVousBody from "../../utils/Interface/rendezVous.interface";
 
 const rendezVousSchema = new Schema<RendezVousBody>({
   idDoctor: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Role",
+    type: String,
     required: true,
     trim: true,
   },
@@ -14,7 +13,7 @@ const rendezVousSchema = new Schema<RendezVousBody>({
     trim: true,
   },
   date: {
-    type: Date,
+    type: String,
     required: true,
     trim: true,
   },
