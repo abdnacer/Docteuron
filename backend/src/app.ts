@@ -9,6 +9,7 @@ import env from "./utils/validateenv";
 // import Router
 import AuthRouter from "./resources/Users/user.router";
 import SpecialiteRouter from "./resources/Specialites/specialite.router";
+import RendezVousRouter from "./resources/RendezVous/rendezVous.router";
 
 class App {
   public app: express.Application;
@@ -29,6 +30,7 @@ class App {
   private Router() {
     this.app.use("/api/auth", AuthRouter);
     this.app.use("/api/user", SpecialiteRouter)
+    this.app.use("/api/user", RendezVousRouter)
   }
 
   private DB() {
