@@ -3,6 +3,7 @@ import { Link, Outlet } from 'react-router-dom'
 import { HiMenuAlt1 } from 'react-icons/hi'
 import { MdOutlineDashboard } from 'react-icons/md'
 import { FiUser, FiSettings } from 'react-icons/fi'
+import { FaStethoscope } from 'react-icons/fa'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { BsMotherboard, BsCalendarDate } from 'react-icons/bs'
 
@@ -10,9 +11,10 @@ const Dashboard = () => {
 
   const MenusAdmin = [
     { name: 'Dashboard', route: '', icon: <MdOutlineDashboard /> },
-    { name: 'Users', route: 'users', icon: <FiUser />, margin: true, add: true },
-    { name: 'Rendez-Vous', route: 'rendezVous', icon: <BsCalendarDate />, add: true },
-    { name: 'Specialités', route: 'specialités', icon: <BsMotherboard />, add: true },
+    { name: 'Doctor', route: 'docotor', icon: <FaStethoscope />, margin: true, add: true },
+    { name: 'Patient', route: 'patient', icon: <FiUser />, add: true },
+    { name: 'Rendez-Vous', route: 'rendez-vous-admin', icon: <BsCalendarDate />, add: true },
+    { name: 'Specialités', route: 'specialites-admin', icon: <BsMotherboard />, add: true },
     { name: 'Setting', route: 'setting', icon: <FiSettings />, margin: true },
   ]
   
@@ -44,12 +46,12 @@ const Dashboard = () => {
         <div className={`${open ? "ml-80" : "ml-20"} pt-2 pr-2 text-2xl font-semibold flex-1 h-screen`}>
           <nav className="bg-[#02b3b9] border-gray-200 px-2 sm:px-4 py-2.5 rounded-md ">
             <div className="container flex flex-wrap items-center justify-between mx-auto">
-              <a href="#" className="flex items-center">
+              <Link href="#" className="flex items-center">
                 <img className="h-9 mr-3 sm:h-12" alt="Creative Logo" />
-              </a>
+              </Link>
 
-              <button type="button" class="flex mr-3 text-sm  rounded-full md:mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                <img className="w-10 h-10 rounded-full " alt="Pofil photo" />
+              <button type="button" className="flex mr-3 text-sm  rounded-full md:mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                <img src="" className="w-10 h-10 rounded-full " alt="Pofil photo" />
               </button>
             </div>
           </nav>
