@@ -1,10 +1,31 @@
-import React from "react";
-import {BiSearchAlt2} from "react-icons/bi"
+import React, { useEffect, useState } from "react";
+import { BiSearchAlt2 } from "react-icons/bi";
+import axios from "axios";
 
 const DoctorAdmin = () => {
+  const [dataDoctor, setDataDoctor] = useState([]);
+
+  const getDataDoctor = async () => {
+    await axios
+      .get("http://localhost:8080/api/user/doctor")
+      .then((res) => {
+        setDataDoctor(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getDataDoctor();
+  }, []);
+
   return (
     <div>
-      <div className={`duration-300 p-3 px-5 font-bold text-3xl flex justify-between`}>
+      <div
+        className={`duration-300 p-3 px-5 font-bold text-3xl flex justify-between`}
+      >
         <div>
           <h1>List of doctors</h1>
         </div>
@@ -85,59 +106,32 @@ const DoctorAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-[#fff] dark:border-b">
-              <td className="px-6 py-4">Abdenacer Sandali</td>
-              <td className="px-6 py-4">+212762401604</td>
-              <td className="px-6 py-4">nasseressaouira@gmail.com</td>
-              <td className="px-6 py-4">SH191020</td>
-              <td className="px-6 py-4">612345679</td>
-              <td className="px-6 py-1">Manara</td>
-              <td className="px-6 py-4">3iyade</td>
-              <td className="px-6 py-4">Yeux</td>
-              <td className="py-4 px-6">
-                <button
-                  className={
-                    "px-4 py-1 btn bg-[#02b3b9] dark:bg-[#02b3b9] text-white rounded"
-                  }
-                >
-                  bann
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-[#fff] dark:border-b">
-              <td className="px-6 py-4">Abdellah Sandali</td>
-              <td className="px-6 py-4">+212666432602</td>
-              <td className="px-6 py-4">abdellah@gmail.com</td>
-              <td className="px-6 py-4">H51724</td>
-              <td className="px-6 py-4">61987654</td>
-              <td className="px-6 py-4">Aamar</td>
-              <td className="px-6 py-4">Noredo</td>
-              <td className="px-6 py-4">Nez</td>
-              <td className="py-4 px-6">
-                <button
-                  className={"px-4 py-1 btn bg-[#02b3b9] text-white rounded"}
-                >
-                  bann
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-[#fff]">
-              <td className="px-6 py-4">Amin Rochd</td>
-              <td className="px-6 py-4">+212670576716</td>
-              <td className="px-6 py-4">aminaRochd@gmail.com</td>
-              <td className="px-6 py-4">N12765</td>
-              <td className="px-6 py-4">61230965</td>
-              <td className="px-6 py-4">ONER</td>
-              <td className="px-6 py-4">3amar</td>
-              <td className="px-6 py-4">Bouche</td>
-              <td className="py-4 px-6 items-center">
-                <button
-                  className={"px-4 py-1 btn bg-[#02b3b9] text-white rounded"}
-                >
-                  bann
-                </button>
-              </td>
-            </tr>
+            {dataDoctor.map((doctor, index) => (
+              <tr
+                key={index}
+                className="bg-white border-b dark:bg-[#fff] dark:border-b"
+              >
+                <td className="px-6 py-4">{doctor.nameComplete}</td>
+                <td className="px-6 py-4">{doctor.phone}</td>
+                <td className="px-6 py-4">{doctor.email}</td>
+                <td className="px-6 py-4">{doctor.cin}</td>
+                <td className="px-6 py-4">{doctor.INPE}</td>
+                <td className="px-6 py-1">{doctor.residence}</td>
+                <td className="px-6 py-4">{doctor.cabinetName}</td>
+                <td className="px-6 py-4">{doctor.specialty}</td>
+                <td className="py-4 px-6">
+                  <button
+                    className={
+                      doctor.isBanned
+                        ? "px-4 py-1 btn bg-red-600 text-white rounded"
+                        : "px-4 py-1 rounded bg-[#02b3b9] text-white"
+                    }
+                  >
+                    {doctor.isBanned ? "bann" : "banned"}
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
