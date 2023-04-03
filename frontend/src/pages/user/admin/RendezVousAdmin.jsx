@@ -8,8 +8,7 @@ const RendezVousAdmin = () => {
     await axios
       .get("http://localhost:8080/api/user/rendez-vous-admin")
       .then((res) => {
-        setGetDataRender(res.data);
-        console.log(res.data)
+        setGetDataRender(res.data)
       })
       .catch((err) => {
         console.log(err);

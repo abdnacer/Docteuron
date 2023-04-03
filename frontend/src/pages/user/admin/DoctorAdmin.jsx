@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import axios from "axios";
+import Button from "../../../components/Button";
 
 const DoctorAdmin = () => {
   const [dataDoctor, setDataDoctor] = useState([]);
@@ -10,7 +11,17 @@ const DoctorAdmin = () => {
       .get("http://localhost:8080/api/user/doctor")
       .then((res) => {
         setDataDoctor(res.data);
-        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const BannerDoctorUser = async (id) => {
+    await axios
+      .put(`http://localhost:8080/api/user/banner/${id}`)
+      .then(() => {
+        getDataDoctor();
       })
       .catch((err) => {
         console.log(err);
@@ -120,15 +131,15 @@ const DoctorAdmin = () => {
                 <td className="px-6 py-4">{doctor.cabinetName}</td>
                 <td className="px-6 py-4">{doctor.specialty}</td>
                 <td className="py-4 px-6">
-                  <button
-                    className={
+                  <Button
+                    class={
                       doctor.isBanned
                         ? "px-4 py-1 btn bg-red-600 text-white rounded"
                         : "px-4 py-1 rounded bg-[#02b3b9] text-white"
                     }
-                  >
-                    {doctor.isBanned ? "bann" : "banned"}
-                  </button>
+                    btn={doctor.isBanned ? "bann" : "banned"}
+                    onclick={() => BannerDoctorUser(doctor._id)}
+                  />
                 </td>
               </tr>
             ))}
