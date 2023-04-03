@@ -1,14 +1,17 @@
 // import Dependencies
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Pages
 import Dashboard from "../components/Layouts/Dashboard";
+// import Pages Admin
 import DashboardAdmin from "../pages/user/admin/DashboardAdmin";
 import DoctorAdmin from "../pages/user/admin/DoctorAdmin";
 import PatientAdmin from "../pages/user/admin/PatientAdmin";
 import RendezVousAdmin from "../pages/user/admin/RendezVousAdmin";
 import SpecialityAdmin from "../pages/user/admin/SpecialityAdmin";
 import SettingAdmin from "../pages/user/admin/SettingAdmin";
+// import Pages Doctor
+import DashboardDoctor from "../pages/user/doctor/DashboardDoctor";
+import RendezVousDoctor from "../pages/user/doctor/RendezVousDoctor";
 
 const RouterApp = () => {
   return (
@@ -24,8 +27,8 @@ const RouterApp = () => {
         </Route>
 
         <Route path="/dashboard-doctor" element={<Dashboard />}>
-          <Route path="" element={<DashboardAdmin />} />
-          <Route path="rendez-vous-doctor" element={<RendezVousAdmin />} />
+          <Route path="" element={<DashboardDoctor />} />
+          <Route path="rendez-vous-doctor" element={<RendezVousDoctor />} />
           <Route path="setting-doctor" element={<SettingAdmin />} />
         </Route>
       </Routes>
