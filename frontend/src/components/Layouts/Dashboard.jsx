@@ -6,16 +6,24 @@ import { FiUser, FiSettings } from 'react-icons/fi'
 import { FaStethoscope } from 'react-icons/fa'
 import { AiOutlineLogout } from 'react-icons/ai'
 import { BsMotherboard, BsCalendarDate } from 'react-icons/bs'
+import Logo from "../../assets/logo.png"
+import Profil from "../../assets/profil.png"
 
 const Dashboard = () => {
 
   const MenusAdmin = [
     { name: 'Dashboard', route: '', icon: <MdOutlineDashboard /> },
-    { name: 'Doctor', route: 'docotor', icon: <FaStethoscope />, margin: true, add: true },
+    { name: 'Doctor', route: 'doctor', icon: <FaStethoscope />, margin: true, add: true },
     { name: 'Patient', route: 'patient', icon: <FiUser />, add: true },
     { name: 'Rendez-Vous', route: 'rendez-vous-admin', icon: <BsCalendarDate />, add: true },
     { name: 'Specialités', route: 'specialites-admin', icon: <BsMotherboard />, add: true },
-    { name: 'Setting', route: 'setting', icon: <FiSettings />, margin: true },
+    { name: 'Setting', route: 'setting-admin', icon: <FiSettings />, margin: true },
+  ]
+
+  const MenusDoctor = [
+    { name: 'Dashboard', route: '', icon: <MdOutlineDashboard /> },
+    { name: 'Rendez-Vous', route: 'rendez-vous-doctor', icon: <BsCalendarDate />, margin: true, add: true },
+    { name: 'Setting', route: 'setting-doctor', icon: <FiSettings />, margin: true },
   ]
   
     const [open, setOpen] = useState(true)
@@ -28,7 +36,7 @@ const Dashboard = () => {
             <HiMenuAlt1 size={26} className='cursor-pointer' onClick={() => setOpen(!open)} />
           </div>
           <div className='mt-4 flex flex-col gap-4 relative'>
-            {MenusAdmin.map((menu, index) => (<Link key={index} to={menu.route} className={`${menu.margin ? 'mt-8' : ''} flex items-center text-xl gap-3.5 font-medium p-2 hover:bg-[#00758f] hover:text-white rounded-md`}>
+            {MenusDoctor.map((menu, index) => (<Link key={index} to={menu.route} className={`${menu.margin ? 'mt-8' : ''} flex items-center text-xl gap-3.5 font-medium p-2 hover:bg-[#00758f] hover:text-white rounded-md`}>
               <div>{menu.icon}</div>
               <h2 className={`${!open ? 'opacity-0 translate-x-28 overflow-hidden' : ''} whitespace-pre duration-500`} style={{ transitionDelay: `${index + 3}00ms` }}>{menu.name}</h2>
             </Link>
@@ -47,11 +55,11 @@ const Dashboard = () => {
           <nav className="bg-[#02b3b9] border-gray-200 px-2 sm:px-4 py-2.5 rounded-md ">
             <div className="container flex flex-wrap items-center justify-between mx-auto">
               <Link href="#" className="flex items-center">
-                <img className="h-9 mr-3 sm:h-12" alt="Creative Logo" />
+                <img src={Logo} className="h-9 mr-3 sm:h-12" alt="Creative Logo" />
               </Link>
 
               <button type="button" className="flex mr-3 text-sm  rounded-full md:mr-0" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                <img src="" className="w-10 h-10 rounded-full " alt="Pofil photo" />
+                <img src={Profil} className="w-10 h-10 rounded-full " alt="Pofil photo" />
               </button>
             </div>
           </nav>

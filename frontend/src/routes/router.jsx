@@ -8,17 +8,25 @@ import DoctorAdmin from "../pages/user/admin/DoctorAdmin";
 import PatientAdmin from "../pages/user/admin/PatientAdmin";
 import RendezVousAdmin from "../pages/user/admin/RendezVousAdmin";
 import SpecialityAdmin from "../pages/user/admin/SpecialityAdmin";
+import SettingAdmin from "../pages/user/admin/SettingAdmin";
 
 const RouterApp = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />}>
+        <Route path="/dashboard-admin" element={<Dashboard />}>
           <Route path="" element={<DashboardAdmin />} />
-          <Route path="/docotor" element={<DoctorAdmin />} />
-          <Route path="/patient" element={<PatientAdmin />} />
-          <Route path="/rendez-vous-admin" element={<RendezVousAdmin />} />
-          <Route path="/specialites-admin" element={<SpecialityAdmin />} />
+          <Route path="doctor" element={<DoctorAdmin />} />
+          <Route path="patient" element={<PatientAdmin />} />
+          <Route path="rendez-vous-admin" element={<RendezVousAdmin />} />
+          <Route path="specialites-admin" element={<SpecialityAdmin />} />
+          <Route path="setting-admin" element={<SettingAdmin />} />
+        </Route>
+
+        <Route path="/dashboard-doctor" element={<Dashboard />}>
+          <Route path="" element={<DashboardAdmin />} />
+          <Route path="rendez-vous-doctor" element={<RendezVousAdmin />} />
+          <Route path="setting-doctor" element={<SettingAdmin />} />
         </Route>
       </Routes>
     </Router>
