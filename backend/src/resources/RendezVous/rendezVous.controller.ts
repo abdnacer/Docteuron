@@ -98,7 +98,10 @@ class ControllerRendezVous {
     res: Response,
     next: NextFunction
   ) => {
-    const getAllRendezVous = await db.RendezVous.find();
+    // const getAllRendezVous = await db.RendezVous.find();
+    const getAllRendezVous = await db.RendezVous.find()
+    .populate({ path: 'idDoctor', model: db.User })
+    .populate({ path: 'idPatient', model: db.User })
 
     if (!getAllRendezVous)
       return next(new HttpException(400, "Rendez-Vous Not Found"));

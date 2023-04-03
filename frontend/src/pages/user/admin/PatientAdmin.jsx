@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
+import axios from "axios";
+import Button from "../../../components/Button";
 
 const PatientAdmin = () => {
+  const [dataPatient, setDataPatient] = useState([]);
+
+  const getDataPatient = async () => {
+    await axios
+      .get("http://localhost:8080/api/user/patient")
+      .then((res) => {
+        setDataPatient(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const BannerPatientUser = async (id) => {
+    await axios
+      .put(`http://localhost:8080/api/user/banner/${id}`)
+      .then(() => {
+        getDataPatient();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getDataPatient();
+  }, []);
+
   return (
     <div>
       <div
@@ -75,45 +105,28 @@ const PatientAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-[#fff] dark:border-b">
-              <td className="px-6 py-4">Abdenacer Sandali</td>
-              <td className="px-6 py-4">+212762401604</td>
-              <td className="px-6 py-4">nasseressaouira@gmail.com</td>
-              <td className="px-6 py-4">SH191020</td>
-              <td className="py-4 px-6 items-center">
-                <button
-                  className={"px-4 py-1 btn bg-[#02b3b9] text-white rounded"}
-                >
-                  bann
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-white border-b dark:bg-[#fff] dark:border-b">
-              <td className="px-6 py-4">Abdellah Sandali</td>
-              <td className="px-6 py-4">+212666432602</td>
-              <td className="px-6 py-4">abdellah@gmail.com</td>
-              <td className="px-6 py-4">H51724</td>
-              <td className="py-4 px-6 items-center">
-                <button
-                  className={"px-4 py-1 btn bg-[#02b3b9] text-white rounded"}
-                >
-                  bann
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-[#fff]">
-              <td className="px-6 py-4">Amin Rochd</td>
-              <td className="px-6 py-4">+212670576716</td>
-              <td className="px-6 py-4">aminaRochd@gmail.com</td>
-              <td className="px-6 py-4">N12765</td>
-              <td className="py-4 px-6 items-center">
-                <button
-                  className={"px-4 py-1 btn bg-[#02b3b9] text-white rounded"}
-                >
-                  bann
-                </button>
-              </td>
-            </tr>
+            {dataPatient.map((patient, index) => (
+              <tr
+                key={index}
+                className="bg-white border-b dark:bg-[#fff] dark:border-b"
+              >
+                <td className="px-6 py-4">{patient.nameComplete}</td>
+                <td className="px-6 py-4">{patient.phone}</td>
+                <td className="px-6 py-4">{patient.email}</td>
+                <td className="px-6 py-4">{patient.cin}</td>
+                <td className="py-4 px-6">
+                  <Button
+                    onclick={() => BannerPatientUser(patient._id)}
+                    class={
+                      patient.isBanned
+                        ? "px-4 py-1 btn bg-red-600 text-white rounded"
+                        : "px-4 py-1 rounded bg-[#02b3b9] text-white"
+                    }
+                    btn={patient.isBanned ? "bann" : "banned"}
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

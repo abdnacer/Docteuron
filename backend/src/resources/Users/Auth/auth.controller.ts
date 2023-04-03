@@ -9,13 +9,13 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Storage from "local-storage";
 // ErrorHandler
-import HttpException from "../../middleware/errorHandler/HttpException";
-import Mailer from "../../utils/mailer";
-import env from "../../utils/validateenv";
+import HttpException from "../../../middleware/errorHandler/HttpException";
+import Mailer from "../../../utils/mailer";
+import env from "../../../utils/validateenv";
 // Models
-import db from "../../resources";
+import db from "../../../resources"
 
-class ControllerUser {
+class ControllerAuth {
   public RegisterPatient = async (
     req: Request,
     res: Response,
@@ -404,6 +404,6 @@ class ControllerUser {
   };
 }
 
-const UserController = new ControllerUser();
+const AuthController = new ControllerAuth();
 
-export default UserController;
+export default AuthController;
