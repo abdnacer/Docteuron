@@ -18,9 +18,7 @@ const DashboardAdmin = () => {
   useEffect(() => {
     getStatistique();
   }, []);
-  // {
-  //   console.log(statistique);
-  // }
+  
   return (
     <div>
       <div className={`mb-4 duration-300 flex flex-wrap justify-center`}>
