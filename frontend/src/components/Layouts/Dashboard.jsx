@@ -36,7 +36,7 @@ const Dashboard = () => {
             <HiMenuAlt1 size={26} className='cursor-pointer' onClick={() => setOpen(!open)} />
           </div>
           <div className='mt-4 flex flex-col gap-4 relative'>
-            {MenusDoctor.map((menu, index) => (<Link key={index} to={menu.route} className={`${menu.margin ? 'mt-8' : ''} flex items-center text-xl gap-3.5 font-medium p-2 hover:bg-[#00758f] hover:text-white rounded-md`}>
+            {MenusAdmin.map((menu, index) => (<Link key={index} to={menu.route} className={`${menu.margin ? 'mt-8' : ''} flex items-center text-xl gap-3.5 font-medium p-2 hover:bg-[#00758f] hover:text-white rounded-md`}>
               <div>{menu.icon}</div>
               <h2 className={`${!open ? 'opacity-0 translate-x-28 overflow-hidden' : ''} whitespace-pre duration-500`} style={{ transitionDelay: `${index + 3}00ms` }}>{menu.name}</h2>
             </Link>
