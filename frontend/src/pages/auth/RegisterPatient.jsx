@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import LogoImage from "../../assets/logo2.png";
 import LoginImage from "../../assets/login.jpg";
@@ -6,9 +6,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login() {
-  const [showRegister, setShowRegister] = useState(false);
-
+const RegisterPatient = () => {
   const InputLogin = [
     { type: "email", name: "email", id: "email", placeholder: "Email" },
     {
@@ -18,7 +16,6 @@ function Login() {
       placeholder: "Password",
     },
   ];
-
   return (
     <div>
       <div
@@ -69,45 +66,19 @@ function Login() {
               </div>
               <p class="text-sm font-semibold text-center mt-5 text-black dark:text-black">
                 Don’t have an account yet?{" "}
-                <button
-                  onClick={() => setShowRegister(true)}
+                <Link
+                  to="register"
                   class="font-medium text-primary-600 hover:underline dark:text-[#02b3b9]"
                 >
                   Sign up
-                </button>
+                </Link>
               </p>
             </form>
           </div>
         </div>
       </div>
-      {showRegister ? (
-        <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-auto my-6 mx-auto max-w-4xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Choisi Register</h3>
-                </div>
-                <div>
-                  <Link
-                    to="register-doctor"
-                    className="p-1 bg-transparent border-0 text-gray-300 opacity-1 float-right text-3xl leading-none font-semibold outline-none focus:outline-none ml-8"
-                  >
-                    <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
-                      Register-Doctor
-                    </span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-        </>
-      ) : null}
     </div>
   );
-}
+};
 
-export default Login;
+export default RegisterPatient;
