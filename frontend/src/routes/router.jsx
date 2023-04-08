@@ -8,6 +8,9 @@ import Dashboard from "../components/Layouts/Dashboard";
 // import ProtectedPatient from "../protectedRoutes/protectedPatient";
 // import Authentification
 import Login from "../pages/auth/Login";
+import RegisterDoctor from "../pages/auth/RegisterDoctor";
+import RegisterPatient from "../pages/auth/RegisterPatient";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 // import Pages Admin
 import DashboardAdmin from "../pages/user/admin/DashboardAdmin";
@@ -26,9 +29,10 @@ const RouterApp = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} />
+        <Route path="/register-patient" element={<RegisterPatient />} />
+        <Route path="/register-doctor" element={<RegisterDoctor />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/form-forgot-password" element={<FormForgotPassword />} /> */}
+        {/* <Route path="/form-forgot-password" element={<FormForgotPassword />} /> */}
 
         {/* <Route element={<ProtectedAdmin />}> */}
           <Route path="/dashboard-admin" element={<Dashboard />}>
