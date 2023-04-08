@@ -31,7 +31,7 @@ const Dashboard = () => {
     return (
       <div>
       <div className='flex relative gap-6' >
-        <div className={`${open ? 'w-72' : 'w-16'} fixed bg-[#02b3b9] my-2 ml-2 rounded-xl duration-300 w-72 px-4`} style={{ height: "98%" }}>
+        <div className={`${open ? 'w-76' : 'w-20'} fixed bg-[#02b3b9] my-2 ml-2 rounded-xl duration-300 w-72 px-4`} style={{ height: "98%" }}>
           <div className='py-3 flex justify-end'>
             <HiMenuAlt1 size={26} className='cursor-pointer' onClick={() => setOpen(!open)} />
           </div>
@@ -51,7 +51,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className={`${open ? "ml-80" : "ml-20"} pt-2 pr-2 text-2xl font-semibold flex-1 h-screen`}>
+        <div className={`${open ? "ml-80" : "ml-16"} pt-2 pr-2 text-2xl font-semibold flex-1 h-screen`}>
           <nav className="bg-[#02b3b9] border-gray-200 px-2 sm:px-4 py-2.5 rounded-md ">
             <div className="container flex flex-wrap items-center justify-between mx-auto">
               <Link href="#" className="flex items-center">

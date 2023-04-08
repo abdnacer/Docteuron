@@ -2,6 +2,13 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "../components/Layouts/Dashboard";
+// import Prtected Routes
+// import ProtectedAdmin from "../protectedRoutes/protectedAdmin";
+// import ProtectedDoctor from "../protectedRoutes/protectedDoctor";
+// import ProtectedPatient from "../protectedRoutes/protectedPatient";
+// import Authentification
+import Login from "../pages/auth/Login";
+
 // import Pages Admin
 import DashboardAdmin from "../pages/user/admin/DashboardAdmin";
 import DoctorAdmin from "../pages/user/admin/DoctorAdmin";
@@ -17,20 +24,30 @@ const RouterApp = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/dashboard-admin" element={<Dashboard />}>
-          <Route path="" element={<DashboardAdmin />} />
-          <Route path="doctor" element={<DoctorAdmin />} />
-          <Route path="patient" element={<PatientAdmin />} />
-          <Route path="rendez-vous-admin" element={<RendezVousAdmin />} />
-          <Route path="specialites-admin" element={<SpecialityAdmin />} />
-          <Route path="setting-admin" element={<SettingAdmin />} />
-        </Route>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/form-forgot-password" element={<FormForgotPassword />} /> */}
 
-        <Route path="/dashboard-doctor" element={<Dashboard />}>
-          <Route path="" element={<DashboardDoctor />} />
-          <Route path="rendez-vous-doctor" element={<RendezVousDoctor />} />
-          <Route path="setting-doctor" element={<SettingAdmin />} />
-        </Route>
+        {/* <Route element={<ProtectedAdmin />}> */}
+          <Route path="/dashboard-admin" element={<Dashboard />}>
+            <Route path="" element={<DashboardAdmin />} />
+            <Route path="doctor" element={<DoctorAdmin />} />
+            <Route path="patient" element={<PatientAdmin />} />
+            <Route path="rendez-vous-admin" element={<RendezVousAdmin />} />
+            <Route path="specialites-admin" element={<SpecialityAdmin />} />
+            <Route path="setting-admin" element={<SettingAdmin />} />
+          </Route>
+        {/* </Route> */}
+
+        {/* <Route element={<ProtectedDoctor />}> */}
+          <Route path="/dashboard-doctor" element={<Dashboard />}>
+            <Route path="" element={<DashboardDoctor />} />
+            <Route path="rendez-vous-doctor" element={<RendezVousDoctor />} />
+            <Route path="setting-doctor" element={<SettingAdmin />} />
+          </Route>
+        {/* </Route> */}
       </Routes>
     </Router>
   );
