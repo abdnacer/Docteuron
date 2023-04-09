@@ -13,7 +13,9 @@ interface UserBody {
   description: string;
   email: string;
   password: string;
-  isBanned: boolean;
+  confirm_password: string
+  isBanned: boolean
+  verification: Boolean
 }
 
 export default UserBody;

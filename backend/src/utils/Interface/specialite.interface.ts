@@ -1,5 +1,6 @@
 interface SpecialiteBody {
-    name: string
+    name: string,
+    approve: boolean
 }
 
 export default SpecialiteBody

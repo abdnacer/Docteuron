@@ -44,6 +44,7 @@ const userSchema = new Schema<UserBody>({
   specialty: String,
   description: String,
   isBanned: Boolean,
+  verification: Boolean,
 });
 
 const User = model<UserBody>('User', userSchema);

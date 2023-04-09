@@ -9,8 +9,6 @@ import Specialite from "./Specialites/specialite.model";
 import dbBody from "../utils/Interface/db.interface";
 import RoleBody from "../utils/Interface/role.interface";
 
-// mongoose.Promise = global.Promise;
-
 const db: dbBody = {
   mongoose,
   User,

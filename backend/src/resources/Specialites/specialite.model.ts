@@ -4,8 +4,9 @@ import SpecialiteBody from "../../utils/Interface/specialite.interface";
 const specialiteSchema = new Schema<SpecialiteBody>({
   name: {
     type: String,
-    required: true,
+    required: true
   },
+  approve: Boolean
 });
 
 const Specialite = model<SpecialiteBody>("Specialite", specialiteSchema);
