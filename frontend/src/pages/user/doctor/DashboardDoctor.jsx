@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const DashboardDoctor = () => {
+
+  const selectRole = useSelector((state => state.auth))
+
+  console.log(selectRole)
+
   const [statistique, setStatistique] = useState([]);
 
   const getStatistique = () => {

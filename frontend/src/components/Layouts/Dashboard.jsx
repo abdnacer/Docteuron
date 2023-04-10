@@ -8,8 +8,10 @@ import { AiOutlineLogout } from 'react-icons/ai'
 import { BsMotherboard, BsCalendarDate } from 'react-icons/bs'
 import Logo from "../../assets/logo.png"
 import Profil from "../../assets/profil.png"
+// import { useSelector } from "react-redux"
 
 const Dashboard = () => {
+
 
   const MenusAdmin = [
     { name: 'Dashboard', route: '', icon: <MdOutlineDashboard /> },
