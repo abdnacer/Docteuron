@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import LogoImage from "../../assets/logo2.png";
 import LoginImage from "../../assets/login.jpg";
@@ -6,9 +7,18 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import axios from "axios";
+import { LOGIN_FAILED, LOGIN_SUCCESS } from "../../features/authSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const baseURL = "http://localhost:8080/api/auth";
 
 function Login() {
   const [showRegister, setShowRegister] = useState(false);
+  const [inputLogin, setInputLogin] = useState({ email: "", password: "" });
+
+  const dispatch = useDispatch();
 
   const InputLogin = [
     { type: "email", name: "email", id: "email", placeholder: "Email" },
@@ -19,6 +29,36 @@ function Login() {
       placeholder: "Password",
     },
   ];
+
+  const onChangeInputLogin = (e) => {
+    const valeur = e.target.value;
+    setInputLogin({ ...inputLogin, [e.target.name]: valeur });
+  };
+
+  const LoginUser = async () => {
+    await axios
+      .post(`${baseURL}/login`, {
+        email: inputLogin.email,
+        password: inputLogin.password,
+      })
+      .then((res) => {
+        const role = res.data.user.role;
+        if (role) {
+          dispatch(LOGIN_SUCCESS(res.data));
+          // window.location.replace("/dashboard-" + role);
+        } else {
+          dispatch(LOGIN_FAILED());
+          toast.warn(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const role = localStorage.getItem(JSON.parse('user.role'))
+  console.log(role)
+
 
   return (
     <div>
@@ -47,6 +87,7 @@ function Login() {
                     type={inputChild.type}
                     name={inputChild.name}
                     id={inputChild.id}
+                    onChange={onChangeInputLogin}
                     class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600  focus:outline-none focus:ring-0 focus:border-[#02b3b9] peer"
                     placeholder={inputChild.placeholder}
                   />
@@ -54,7 +95,8 @@ function Login() {
               ))}
               <div className="flex justify-center w-full">
                 <Button
-                  type="submit"
+                  type="button"
+                  onclick={LoginUser}
                   class="mt-5 text-white font-medium rounded-lg text-sm w-full sm:w-auto px-11 py-2.5 text-center"
                   style={{ background: "#02b3b9" }}
                   btn="Login"
@@ -120,6 +162,7 @@ function Login() {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}{" "}
+      <ToastContainer />
     </div>
   );
 }
