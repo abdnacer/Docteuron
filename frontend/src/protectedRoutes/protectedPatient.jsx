@@ -4,7 +4,7 @@ import { isAuth } from "./isAuth";
 
 const ProtectedPatient = () => {
      return(
-        isAuth() && isAuth() === 'Patient' ? <Outlet /> : <Navigate to='Page404' /> 
+        isAuth() && isAuth() === 'Patient' ? <Outlet /> : <Navigate to='/login' /> 
      )
 }
 

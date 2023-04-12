@@ -5,6 +5,9 @@ import Logo from "../../../assets/logo2.png";
 import { CgPhone, CgMail } from "react-icons/cg";
 import { HiLocationMarker } from "react-icons/hi";
 import Button from "../../../components/Button";
+import Img1 from '../../../assets/Img1.png'
+import Img2 from '../../../assets/Img2.png'
+import Img3 from '../../../assets/Img3.png'
 import axios from "axios";
 
 const baseURL = "http://localhost:8080/api/user";
@@ -16,7 +19,6 @@ const Home = () => {
     await axios
       .get(`${baseURL}/doctor`)
       .then((res) => {
-        console.log(res.data)
         setDataDoctor(res.data);
       })
       .catch((err) => {
@@ -44,11 +46,10 @@ const Home = () => {
       </div>
 
       <div className="flex justify-around">
-        {/* bg-white rounded-lg shadow-2xl dark:bg-[#fff] */}
         <div className="max-w-md p-6 ">
           <img
-            src="https://odocteur.com/build/assets/image/media/7da5776e0661103bd1ddb90687afc0d9.png"
-            alt=""
+          className="mb-10"
+            src={Img1}
           />
           <h5 className="mb-2 text-2xl font-semibold tracking-tight text-center text-gray-900 dark:text-black">
             Créez votre compte
@@ -60,7 +61,8 @@ const Home = () => {
         </div>
         <div className="max-w-md p-6">
           <img
-            src="https://odocteur.com/build/assets/image/media/6822655e3a999c7aa090a764fdb74ea8.png"
+          className="mb-7"
+            src={Img2}
             alt=""
           />
           <h5 className="mb-2 text-2xl text-center font-semibold tracking-tight text-gray-900 dark:text-black">
@@ -73,7 +75,8 @@ const Home = () => {
         </div>
         <div className="max-w-md p-6">
           <img
-            src="https://odocteur.com/build/assets/image/media/fe15b155f78777738917a98deb5db9a4.png"
+          className="mb-4"
+            src={Img3}
             alt=""
           />
           <a to="#">
@@ -104,7 +107,7 @@ const Home = () => {
                 />
                 <div className="flex justify-center flex-col">
                   <h5 className="flex text-lg">Dr. {doctor.nameComplete}</h5>
-                  <h6 className="text-[#02b3b9] text-base">{doctor.specialty.name}</h6>
+                  <h6 className="text-[#02b3b9] text-base">{doctor?.specialty?.name}</h6>
                 </div>
               </div>
               <div className="mt-5 flex">
@@ -112,7 +115,7 @@ const Home = () => {
                   <HiLocationMarker />
                 </span>
                 <p className="text-base text-[#666973]">
-                  {doctor.address}
+                  {doctor?.address}
                 </p>
               </div>
               <div className="flex justify-center w-full">
@@ -157,7 +160,6 @@ const Home = () => {
                     <li className="mb-4">Médecine Préventive</li>
                     <li className="mb-4">Dentiste</li>
                     <li className="mb-4">Odontologue</li>
-                    {/* <li className="mb-4">Orthophoniste</li> */}
                   </ul>
                 </div>
                 <div>

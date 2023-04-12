@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { MdOutlineDashboard, MdPassword } from "react-icons/md";
 import { FiUser, FiSettings } from "react-icons/fi";
@@ -8,17 +8,16 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { BsMotherboard, BsCalendarDate } from "react-icons/bs";
 import Logo from "../../assets/logo.png";
 import Profil from "../../assets/profil.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { LOGOUT } from "../../features/authSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const logout = () => {
-    dispatch(LOGOUT());
     localStorage.clear()
-    navigate('/')
+    dispatch(LOGOUT());
+    window.location.replace('http://localhost:3000/login')
   };
 
   const role = JSON.parse(localStorage.getItem("user"));
