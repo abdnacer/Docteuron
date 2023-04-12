@@ -13,7 +13,7 @@ import HttpException from "../../../middleware/errorHandler/HttpException";
 import Mailer from "../../../utils/mailer";
 import env from "../../../utils/validateenv";
 // Models
-import db from "../../../resources"
+import db from "../../../resources";
 
 class ControllerAuth {
   public RegisterPatient = async (
@@ -34,73 +34,56 @@ class ControllerAuth {
     } = req.body;
 
     if (
-      nameComplete == "" ||
-      phone == "" ||
-      dateBirthday == "" ||
-      city == "" ||
-      cin == "" ||
-      address == "" ||
-      email == "" ||
-      password == "" ||
-      confirmPassword == ""
+      nameComplete === "" ||
+      phone === "" ||
+      dateBirthday === "" ||
+      city === "" ||
+      cin === "" ||
+      address === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
     )
-      return next(new HttpException(400, "Please Fill All The Fields"));
+      return next(new HttpException(200, "Please Fill All The Fields"));
     else {
-      if (!isEmail(email)) {
-        return next(new HttpException(400, "Invalid input Email"));
-      } else if (!isDate(dateBirthday)) {
-        return next(new HttpException(400, "Invalid input Date Birthday"));
-      } else if (!matches(cin, /^[A-Z]{2}\d{5,7}$/)) {
-        return next(new HttpException(400, "Invalid input CIN"));
-      } else if (!isMobilePhone(phone)) {
-        return next(new HttpException(400, "Invalid input Phone"));
-      } else if (!isStrongPassword(password)) {
-        return next(new HttpException(400, "Password input Not Strong"));
-      } else if (!isStrongPassword(confirmPassword)) {
-        return next(new HttpException(400, "Password input Not Strong"));
-      } else {
-        const userExists = await db.User.findOne({ email });
-        const phoneExists = await db.User.findOne({ phone });
-        if (userExists)
-          return next(new HttpException(400, "User Already Exists"));
+      const userExists = await db.User.findOne({ email });
+      const phoneExists = await db.User.findOne({ phone });
+      if (userExists)
+        return next(new HttpException(200, "User Already Exists"));
+      else {
+        if (phoneExists)
+          return next(new HttpException(200, "Phone Already Exists"));
         else {
-          if (phoneExists)
-            return next(new HttpException(400, "Phone Already Exists"));
+          if (password !== confirmPassword)
+            return next(new HttpException(200, "Password Not Matched"));
           else {
-            if (password !== confirmPassword)
-              return next(new HttpException(400, "Password Not Matched"));
-            else {
-              const salt = await bcrypt.genSalt(10);
-              const passHashed = await bcrypt.hash(password, salt);
-
-              const role = await db.Role.aggregate([
-                { $match: { name: "patient" } },
-              ]);
-
-              if (role) {
-                const user = await db.User.create({
-                  nameComplete: nameComplete,
-                  phone: phone,
-                  dateBirthday: dateBirthday,
-                  city: city,
-                  cin: cin,
-                  address: address,
-                  email: email,
-                  password: passHashed,
-                  role: role[0]._id,
-                  isBanned: false,
-                  verification: false,
-                });
-
-                if (user) {
-                  Mailer.SendMail("verify-email", email);
-                  res.json("Welcome" + nameComplete + "Check Your Email");
-                } else return next(new HttpException(400, "User Not Registed"));
-              } else
-                return next(
-                  new HttpException(400, "Not Role Patient in Database ")
-                );
-            }
+            const salt = await bcrypt.genSalt(10);
+            const passHashed = await bcrypt.hash(password, salt);
+            const role = await db.Role.aggregate([
+              { $match: { name: "patient" } },
+            ]);
+            if (role) {
+              const user = await db.User.create({
+                nameComplete: nameComplete,
+                phone: phone,
+                dateBirthday: dateBirthday,
+                city: city,
+                cin: cin,
+                address: address,
+                email: email,
+                password: passHashed,
+                role: role[0]._id,
+                isBanned: false,
+                verification: false,
+              });
+              if (user) {
+                Mailer.SendMail("verify-email", email);
+                res.json("Welcome " + nameComplete + " Check Your Email");
+              } else return next(new HttpException(200, "User Not Registed"));
+            } else
+              return next(
+                new HttpException(200, "Not Role Patient in Database ")
+              );
           }
         }
       }
@@ -145,68 +128,51 @@ class ControllerAuth {
       specialty == "" ||
       description == ""
     )
-      return next(new HttpException(400, "Please Fill All The Fields"));
+      return next(new HttpException(200, "Please Fill All The Fields"));
     else {
-      if (!isEmail(email)) {
-        return next(new HttpException(400, "Invalid input Email"));
-      } else if (!isDate(dateBirthday)) {
-        return next(new HttpException(400, "Invalid input Date Birthday"));
-      } else if (!matches(cin, /^[A-Z]{2}\d{5,7}$/)) {
-        return next(new HttpException(400, "Invalid input CIN"));
-      } else if (!isMobilePhone(phone)) {
-        return next(new HttpException(400, "Invalid input Phone"));
-      } else if (!isStrongPassword(password)) {
-        return next(new HttpException(400, "Password input Not Strong"));
-      } else if (!isStrongPassword(confirmPassword)) {
-        return next(new HttpException(400, "Password input Not Strong"));
-      } else if (!matches(INPE, /^16\d{7}$/)) {
-        return next(new HttpException(400, "Invalid input INPE"));
-      } else {
-        const userExists = await db.User.findOne({ email });
-        const phoneExists = await db.User.findOne({ phone });
-        if (userExists)
-          return next(new HttpException(400, "User Already Exsits"));
-        else if (phoneExists)
-          return next(new HttpException(400, "Phone Already Exists"));
-        else if (password !== confirmPassword)
-          return next(new HttpException(400, "Password Not Matched"));
-        else {
-          const salt = await bcrypt.genSalt(10);
-          const passHashed = await bcrypt.hash(password, salt);
+      const userExists = await db.User.findOne({ email });
+      const phoneExists = await db.User.findOne({ phone });
+      const findSpeciality = await db.Specialite.find({ specialty });
+      if (userExists)
+        return next(new HttpException(200, "User Already Exsits"));
+      else if (phoneExists)
+        return next(new HttpException(200, "Phone Already Exists"));
+      else if (!findSpeciality)
+        return next(new HttpException(200, "Speciality Not Found"));
+      else if (password !== confirmPassword)
+        return next(new HttpException(200, "Password Not Matched"));
+      else {
+        const salt = await bcrypt.genSalt(10);
+        const passHashed = await bcrypt.hash(password, salt);
 
-          const role = await db.Role.aggregate([
-            { $match: { name: "doctor" } },
-          ]);
+        const role = await db.Role.aggregate([{ $match: { name: "doctor" } }]);
 
-          if (role) {
-            const user = await db.User.create({
-              nameComplete: nameComplete,
-              phone: phone,
-              dateBirthday: dateBirthday,
-              city: city,
-              cin: cin,
-              address: address,
-              email: email,
-              password: passHashed,
-              INPE: INPE,
-              residence: residence,
-              cabinetName: cabinetName,
-              specialty: specialty,
-              description: description,
-              role: role[0]._id,
-              verification: false,
-              isBanned: false,
-            });
+        if (role) {
+          const user = await db.User.create({
+            nameComplete: nameComplete,
+            phone: phone,
+            dateBirthday: dateBirthday,
+            city: city,
+            cin: cin,
+            address: address,
+            email: email,
+            password: passHashed,
+            INPE: INPE,
+            residence: residence,
+            cabinetName: cabinetName,
+            specialty: specialty,
+            description: description,
+            role: role[0]._id,
+            verification: false,
+            isBanned: false,
+          });
 
-            if (user) {
-              Mailer.SendMail("verify-email", email);
-              res.json("Welcome " + nameComplete + " Check Your Email");
-            } else return next(new HttpException(400, "User Not Registed"));
-          } else
-            return next(
-              new HttpException(400, "Not Role Patient in Database ")
-            );
-        }
+          if (user) {
+            Mailer.SendMail("verify-email", email);
+            res.json("Welcome " + nameComplete + " Check Your Email");
+          } else return next(new HttpException(200, "User Not Registed"));
+        } else
+          return next(new HttpException(200, "Not Role Patient in Database "));
       }
     }
   };
@@ -221,13 +187,13 @@ class ControllerAuth {
 
     const verifyUser = await db.User.findOne({ email: verifyToken.email });
     if (verifyUser && verifyUser.verification === true)
-      return res.json("This Compt Deja Verified");
+      res.redirect("http://localhost:3000/login");
 
     const verificationEmail = await db.User.updateOne(
       { email: verifyToken.email },
       { $set: { verification: true } }
     );
-    if (verificationEmail) res.json("Compts Verified");
+    if (verificationEmail) res.redirect("http://localhost:3000/login");
     if (verifyUser && verifyUser.verification === true)
       throw Error("You Are Registed");
     if (!verificationEmail) throw Error("You can't to active your account");
@@ -237,16 +203,16 @@ class ControllerAuth {
     const { email, password } = req.body;
 
     if (email == "" || password == "")
-      return next(new HttpException(400, "Please Fill All The Fields"));
+      return next(new HttpException(200, "Please Fill All The Fields"));
 
     const user = await db.User.findOne({ email });
-    if (!user) return next(new HttpException(400, "Email is incorrect"));
+    if (!user) return next(new HttpException(200, "Email is incorrect"));
     if (!user.verification)
       return next(
-        new HttpException(400, "Check Your Email To Active Your Account")
+        new HttpException(200, "Check Your Email To Active Your Account")
       );
     if (user.isBanned)
-      return next(new HttpException(400, "Your Account is Banned"));
+      return next(new HttpException(200, "Your Account is Banned"));
 
     const correctPassword = await bcrypt.compare(password, user.password);
     if (user && correctPassword) {
@@ -255,12 +221,20 @@ class ControllerAuth {
 
       if (user && correctPassword && role && token) {
         Storage("token", token);
-        res.json(user);
+        res.json({
+          user: {
+            nameComplete: user.nameComplete,
+            role: role.name,
+            email: user.email,
+            token: token,
+          },
+          token,
+        });
       } else {
-        return next(new HttpException(400, "User Not Correct"));
+        return next(new HttpException(200, "User Not Correct"));
       }
-    }else{
-      return next(new HttpException(400, "User Not Correct"));
+    } else {
+      return next(new HttpException(200, "User Not Correct"));
     }
   };
 
@@ -272,19 +246,18 @@ class ControllerAuth {
     const { lastPassword, nouveauPassword, confirmPassword } = req.body;
 
     if (lastPassword === "" || nouveauPassword === "" || confirmPassword === "")
-      next(new HttpException(400, "Please Fill All The Fields"));
+      next(new HttpException(200, "Please Fill All The Fields"));
     if (nouveauPassword !== confirmPassword)
-      next(new HttpException(400, "Password Not Matched"));
+      next(new HttpException(200, "Password Not Matched"));
     if (
-      !isStrongPassword(lastPassword) ||
       !isStrongPassword(nouveauPassword) ||
       !isStrongPassword(confirmPassword)
     )
-      next(new HttpException(400, "Password input Not Strong"));
+      next(new HttpException(200, "Password input Not Strong"));
 
     const token: any = Storage("token");
     const verifyToken: any = await jwt.verify(token, env.Node_ENV);
-    if (!verifyToken) next(new HttpException(400, "Token Not Verified"));
+    if (!verifyToken) next(new HttpException(200, "Token Not Verified"));
     const findIdUser = await db.User.findById(verifyToken.id);
 
     if (findIdUser) {
@@ -293,7 +266,7 @@ class ControllerAuth {
         findIdUser.password
       );
       if (!comparePassword)
-        next(new HttpException(400, "Password Not Correct"));
+        next(new HttpException(200, "Password Not Correct"));
       else {
         const salt = await bcrypt.genSalt(10);
         const newHashPass = await bcrypt.hash(nouveauPassword, salt);
@@ -302,7 +275,7 @@ class ControllerAuth {
           { $set: { password: newHashPass } }
         )
           .then(() => res.json("Password Updated"))
-          .catch(() => next(new HttpException(400, "Password Not Updated")));
+          .catch(() => next(new HttpException(200, "Password Not Updated")));
       }
     }
   };
@@ -315,10 +288,10 @@ class ControllerAuth {
     const { email } = req.body;
 
     if (email == "")
-      return next(new HttpException(400, "Please Fill The Fields Input Email"));
+      return next(new HttpException(200, "Please Fill The Fields Input Email"));
 
     const findEmail = await db.User.findOne({ email });
-    if (!findEmail) return next(new HttpException(400, "Email Not Found"));
+    if (!findEmail) return next(new HttpException(200, "Email Not Found"));
     else {
       Mailer.SendMail("verify-forgot-password", email);
       res.json("Check Your Email");
@@ -333,18 +306,18 @@ class ControllerAuth {
     const token: any = req.params.token;
     const verifyToken: any = await jwt.verify(token, env.Node_ENV);
 
-    if (!verifyToken) return next(new HttpException(400, "Token Not Verified"));
+    if (!verifyToken) return next(new HttpException(200, "Token Not Verified"));
     else {
       const verifyTokenEmail: any = await db.User.findOne({
         email: verifyToken.email,
       });
 
       if (!verifyTokenEmail)
-        return next(new HttpException(400, "Token Verify Email"));
+        return next(new HttpException(200, "Token Verify Email"));
       else {
         const newToken = this.generateToken(verifyTokenEmail._id);
         Storage("new-token", newToken);
-        res.json("form-forgot-password");
+        res.redirect("http://localhost:3000/form-forgot-password");
       }
     }
   };
@@ -357,35 +330,29 @@ class ControllerAuth {
     const { password, confirmPassword } = req.body;
     const token: any = Storage("new-token");
 
-    if (token == "" || password == "" || confirmPassword == "")
-      return next(new HttpException(400, "Please Fill All The Fields"));
+    if (password == "" || confirmPassword == "")
+      return next(new HttpException(200, "Please Fill All The Fields"));
     else {
-      if (!isStrongPassword(password) || !isStrongPassword(confirmPassword))
-        return next(new HttpException(400, "Password Not Strong"));
+      if (password !== confirmPassword)
+        return next(new HttpException(200, "Password Not Matched"));
       else {
-        if (password !== confirmPassword)
-          return next(new HttpException(400, "Password Not Matched"));
-        else {
-          const verifyToken: any = await jwt.verify(token, env.Node_ENV);
+        const verifyToken: any = await jwt.verify(token, env.Node_ENV);
 
-          if (!verifyToken)
-            return next(new HttpException(400, "Token Not Verified"));
+        if (!verifyToken)
+          return next(new HttpException(200, "Token Not Verified"));
+        else {
+          const findIdUser = await db.User.findById(verifyToken.id);
+          if (!findIdUser)
+            throw Error("Error, User not Foun, replay to check your email");
           else {
-            const findIdUser = await db.User.findById(verifyToken.id);
-            if (!findIdUser)
-              throw Error("Error, User not Foun, replay to check your email");
-            else {
-              const salt = await bcrypt.genSalt(10);
-              const newPassHashed = await bcrypt.hash(password, salt);
-              await db.User.updateOne(
-                { _id: findIdUser._id },
-                { $set: { password: newPassHashed } }
-              )
-                .then(() => res.json("Your Password Hashed"))
-                .catch(() =>
-                  next(new HttpException(400, "Not Update Password"))
-                );
-            }
+            const salt = await bcrypt.genSalt(10);
+            const newPassHashed = await bcrypt.hash(password, salt);
+            await db.User.updateOne(
+              { _id: findIdUser._id },
+              { $set: { password: newPassHashed } }
+            )
+              .then(() => res.json("Your Password Changed"))
+              .catch(() => next(new HttpException(200, "Not Update Password")));
           }
         }
       }
@@ -393,7 +360,8 @@ class ControllerAuth {
   };
 
   public Logout = (req: Request, res: Response, next: NextFunction) => {
-    res.send("Logout");
+    // Storage.clear();
+    res.send("Logged out successfully."); // or any other response you want to send
   };
 
   private generateToken = (id: string) => {

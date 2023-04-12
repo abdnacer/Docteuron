@@ -2,6 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "../components/Layouts/Dashboard";
+import NavBar from "../components/Layouts/NavBar";
 // import Prtected Routes
 // import ProtectedAdmin from "../protectedRoutes/protectedAdmin";
 // import ProtectedDoctor from "../protectedRoutes/protectedDoctor";
@@ -12,6 +13,7 @@ import RegisterDoctor from "../pages/auth/RegisterDoctor";
 import RegisterPatient from "../pages/auth/RegisterPatient";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import FormForgotPassword from "../pages/auth/FormForgotPassword";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 // import Pages Admin
 import DashboardAdmin from "../pages/user/admin/DashboardAdmin";
@@ -23,21 +25,26 @@ import SettingAdmin from "../pages/user/admin/SettingAdmin";
 // import Pages Doctor
 import DashboardDoctor from "../pages/user/doctor/DashboardDoctor";
 import RendezVousDoctor from "../pages/user/doctor/RendezVousDoctor";
+// import Pages Patient
+import Home from "../pages/user/patient/Home";
+import Details from "../pages/user/patient/Details";
+
 import { Provider } from "react-redux";
-import store from "../store/store"
+import store from "../store/store";
 
 const RouterApp = () => {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register-patient" element={<RegisterPatient />} />
           <Route path="/register-doctor" element={<RegisterDoctor />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/form-forgot-password" element={<FormForgotPassword />} />
-          {/* <Route path="/form-forgot-password" element={<FormForgotPassword />} /> */}
+          <Route
+            path="/form-forgot-password"
+            element={<FormForgotPassword />}
+          />
 
           {/* <Route element={<ProtectedAdmin />}> */}
           <Route path="/dashboard-admin" element={<Dashboard />}>
@@ -55,8 +62,14 @@ const RouterApp = () => {
             <Route path="" element={<DashboardDoctor />} />
             <Route path="rendez-vous-doctor" element={<RendezVousDoctor />} />
             <Route path="setting-doctor" element={<SettingAdmin />} />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
           {/* </Route> */}
+
+          <Route path="/" element={<NavBar />}>
+            <Route path="" element={<Home />} />
+            <Route path="/details/:id" element={<Details />} />
+          </Route>
         </Routes>
       </Router>
     </Provider>

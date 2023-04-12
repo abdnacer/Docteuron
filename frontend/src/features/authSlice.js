@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+let userStorage = JSON.parse(localStorage.getItem('user'))
+let tokenStorage = localStorage.getItem('token')
+
 const initialState = {
-  isLogged: false,
+  isLogged: userStorage ? true : false,
   message: null,
-  user: null,
-  token: null,
+  user: userStorage ? userStorage : null,
+  token: tokenStorage ? tokenStorage : null,
 };
 
 const authSlice = createSlice({
@@ -13,8 +16,6 @@ const authSlice = createSlice({
   reducers: {
     LOGIN_SUCCESS: (state, action) => {
       const { user, token } = action.payload;
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", token);
       const newState = {
         ...state,
         isLogged: true,
