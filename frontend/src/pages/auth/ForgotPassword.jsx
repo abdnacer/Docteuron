@@ -61,7 +61,8 @@ const ForgotPassword = () => {
                     placeholder="Email"
                   />
                 </div>
-                <div className="flex justify-center w-full">
+                <div 
+                  className="flex justify-center w-full">
                   <Button
                     type="button"
                     onclick={setEmailForgotPassword}

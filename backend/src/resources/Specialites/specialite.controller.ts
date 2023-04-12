@@ -12,13 +12,13 @@ class ControllerSpecialite {
 
     if (name == "")
       return next(
-        new HttpException(400, "Please Fill The Fields Name Specialite")
+        new HttpException(200, "Please Fill The Fields Name Specialite")
       );
     else {
       const specialiteFound = await db.Specialite.findOne({ name });
 
       if (specialiteFound)
-        return next(new HttpException(400, "Specialite Déja Exsits"));
+        return next(new HttpException(200, "Specialite Déja Exsits"));
       else {
         const addSpecialite = await db.Specialite.create({
           name: name,
@@ -26,7 +26,7 @@ class ControllerSpecialite {
         });
 
         if (!addSpecialite)
-          return next(new HttpException(400, "Specialite Not Created"));
+          return next(new HttpException(200, "Specialite Not Created"));
         else res.json("Specialite Created");
       }
     }
@@ -42,7 +42,7 @@ class ControllerSpecialite {
     ]);
 
     if (getSpecialiteApprove) res.json(getSpecialiteApprove);
-    else return next(new HttpException(400, "Specialite Not Found"));
+    else return next(new HttpException(200, "Specialite Not Found"));
   };
 
   public afficherSpecialiteAdmin = async (
@@ -53,7 +53,7 @@ class ControllerSpecialite {
     const getAllSpecialite = await db.Specialite.find();
 
     if (getAllSpecialite) res.json(getAllSpecialite);
-    else return next(new HttpException(400, "Specialite Not Found"));
+    else return next(new HttpException(200, "Specialite Not Found"));
   };
 
   public updateSpecialite = async (
@@ -66,7 +66,7 @@ class ControllerSpecialite {
 
     if (name == "")
       return next(
-        new HttpException(400, "Please Fill The Fields Name Specialite")
+        new HttpException(200, "Please Fill The Fields Name Specialite")
       );
     else {
 
@@ -75,7 +75,7 @@ class ControllerSpecialite {
         { $set: { name, approve: approve } }
       );
 
-      if(!specialiteUpdate) return next(new HttpException(400, 'Specialite Not Updated'))
+      if(!specialiteUpdate) return next(new HttpException(200, 'Specialite Not Updated'))
       else res.json('Specialite Updated')
     }
   };
@@ -89,14 +89,14 @@ class ControllerSpecialite {
 
     const findId = await db.Specialite.findById({ _id: id });
 
-    if (!findId) return next(new HttpException(400, "Id Not Correct"));
+    if (!findId) return next(new HttpException(200, "Id Not Correct"));
     else {
       const specialiteDelete = await db.Specialite.findByIdAndDelete({
         _id: id,
       });
 
       if (!specialiteDelete)
-        return next(new HttpException(400, "Specialiete Not Deleted"));
+        return next(new HttpException(200, "Specialiete Not Deleted"));
       else res.json("Specialite Deleted");
     }
   };

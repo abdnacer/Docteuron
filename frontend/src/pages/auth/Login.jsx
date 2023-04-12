@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoImage from "../../assets/logo2.png";
 import LoginImage from "../../assets/login.jpg";
 import Input from "../../components/Input";
@@ -19,6 +19,8 @@ function Login() {
   const [inputLogin, setInputLogin] = useState({ email: "", password: "" });
 
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const InputLogin = [
     { type: "email", name: "email", id: "email", placeholder: "Email" },
@@ -42,23 +44,28 @@ function Login() {
         password: inputLogin.password,
       })
       .then((res) => {
-        const role = res.data.user.role;
-        if (role) {
+        if (res.data) {
           dispatch(LOGIN_SUCCESS(res.data));
-          // window.location.replace("/dashboard-" + role);
+          const role = res.data?.user?.role
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          localStorage.setItem("token", res.data.token);
+          if(role === 'admin' || role === 'doctor'){
+            navigate(`/dashboard-${role}`)
+          }
+          else if(role === 'patient'){
+            navigate('/')
+          }
+          else{
+            toast.warn(res.data)
+          }
         } else {
           dispatch(LOGIN_FAILED());
-          toast.warn(res.data);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  const role = localStorage.getItem(JSON.parse('user.role'))
-  console.log(role)
-
 
   return (
     <div>

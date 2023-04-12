@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
 import errorMiddleware from "../../../middleware/errorHandler/error.middlewre";
 import AuthController from "./auth.controller";
+// import Permission Middleware
+import AuthPermission from "../../../middleware/Permission/authPermission";
+import UserPermission from "../../../middleware/Permission/userPermission";
 
 class RouterAuth {
   public router: express.Router;
@@ -12,15 +15,38 @@ class RouterAuth {
   }
 
   private User() {
-    this.router.post("/register/patient", AuthController.RegisterPatient);
-    this.router.post("/register/doctor", AuthController.RegisterDoctor);
+    this.router.post(
+      "/register-patient",
+      AuthController.RegisterPatient
+    );
+    this.router.post(
+      "/register-doctor",
+      AuthPermission.Auth,
+      AuthController.RegisterDoctor
+    );
     this.router.get("/verify-email/:token", AuthController.VerifyEmail);
     this.router.post("/login", AuthController.Login);
-    this.router.post("/reset-password", AuthController.ResetPassword);
-    this.router.post("/forgot-Password", AuthController.ForgotPassword);
-    this.router.get("/verify-forgot-password/:token",AuthController.VerifyForgotPassword);
-    this.router.post("/form-forgot-password",AuthController.FormForgotPassword);
-    this.router.get("/logout", AuthController.Logout);
+    this.router.post(
+      "/reset-password",
+      UserPermission.User,
+      AuthController.ResetPassword
+    );
+    this.router.post(
+      "/forgot-Password",
+      AuthPermission.Auth,
+      AuthController.ForgotPassword
+    );
+    this.router.get(
+      "/verify-forgot-password/:token",
+      AuthPermission.Auth,
+      AuthController.VerifyForgotPassword
+    );
+    this.router.post(
+      "/form-forgot-password",
+      AuthPermission.Auth,
+      AuthController.FormForgotPassword
+    );
+    this.router.get("/logout", UserPermission.User, AuthController.Logout);
   }
 
   private errorMiddleware() {
@@ -30,4 +56,4 @@ class RouterAuth {
 
 const AuthRouter = new RouterAuth().router;
 
-export default AuthRouter
+export default AuthRouter;
