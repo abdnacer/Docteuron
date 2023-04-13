@@ -44,21 +44,24 @@ function Login() {
         password: inputLogin.password,
       })
       .then((res) => {
-        if (res.data) {
-          dispatch(LOGIN_SUCCESS(res.data));
-          const role = res.data?.user?.role
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          localStorage.setItem("token", res.data.token);
-          if(role === 'admin' || role === 'doctor'){
-            navigate(`/dashboard-${role}`)
-          }
-          else if(role === 'patient'){
-            navigate('/')
-          }
-          else{
-            toast.warn(res.data)
+        const data = res.data;
+        if (data.hasOwnProperty("user") && data.hasOwnProperty("token")) {
+          const { user, token } = data;
+          dispatch(LOGIN_SUCCESS(user));
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("token", token);
+          
+          const role = user.role;
+
+          if (role === "admin" || role === "doctor") {
+            navigate(`/dashboard-${role}`);
+          } else if (role === "patient") {
+            navigate("/");
+          } else {
+            toast.warn(data.message);
           }
         } else {
+          toast.warn(data);
           dispatch(LOGIN_FAILED());
         }
       })

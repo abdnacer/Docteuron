@@ -4,7 +4,7 @@ import { isAuth } from "./isAuth";
 
 const ProtectedAdmin = () => {
     return(
-        isAuth() && isAuth() === 'admin' ? <Outlet /> : <Navigate to='Page404' />
+        isAuth() && isAuth() === 'admin' ? <Outlet /> : <Navigate to='/login' />
     )
 }
 
