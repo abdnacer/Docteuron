@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import errorMiddleware from "../../../middleware/errorHandler/error.middlewre";
 import UserController from "./user.controller";
+// import Permission Middleware
+import UserPermission from "../../../middleware/Permission/userPermission";
 
 class RouterUser {
   public router: express.Router;
@@ -12,9 +14,31 @@ class RouterUser {
   }
 
   private User() {
-    this.router.get("/doctor", UserController.AfficherDoctor)
-    this.router.get("/patient", UserController.AfficherPatient)
-    this.router.put("/banner/:id", UserController.BannerUser)
+    this.router.get(
+      "/doctor",
+      UserPermission.User,
+      UserController.AfficherDoctor
+    );
+    this.router.get(
+      "/patient",
+      UserPermission.User,
+      UserController.AfficherPatient
+    );
+    this.router.put(
+      "/banner/:id",
+      UserPermission.User,
+      UserController.BannerUser
+    );
+    this.router.get(
+      "/statistique",
+      UserPermission.User,
+      UserController.StatistiqueAdmin
+    );
+    this.router.get(
+      "/setting",
+      UserPermission.User,
+      UserController.SettingUser
+    );
   }
 
   private errorMiddleware() {
@@ -24,4 +48,4 @@ class RouterUser {
 
 const UserRouter = new RouterUser().router;
 
-export default UserRouter
+export default UserRouter;

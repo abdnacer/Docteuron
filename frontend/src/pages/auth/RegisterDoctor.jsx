@@ -27,7 +27,7 @@ const RegisterDoctor = () => {
     INPE: "",
     residence: "",
     cabinetName: "",
-    speciality: "",
+    specialty: "",
     address: "",
     description: "",
   });
@@ -59,7 +59,7 @@ const RegisterDoctor = () => {
         INPE: inputRegisterDoctor.INPE,
         residence: inputRegisterDoctor.residence,
         cabinetName: inputRegisterDoctor.cabinetName,
-        speciality: inputRegisterDoctor.speciality,
+        specialty: inputRegisterDoctor.specialty,
         address: inputRegisterDoctor.address,
         description: inputRegisterDoctor.description,
       })
@@ -320,12 +320,13 @@ const RegisterDoctor = () => {
                     </label>
                     <select
                       id="speciality"
+                      name="specialty"
+                      onChange={onChangeRegisterDoctor}
                       class="block py-3 px-0 w-full text-sm text-[#333] bg-transparent border-0 border-b-2 border-black appearance-none dark:text-[#333] dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-[#02b3b9] peer"
                     >
                       <option selected></option>
                       {getDataSpeciality.map((speciality) => (
                         <option
-                          onChange={onChangeRegisterDoctor}
                           value={speciality._id}
                         >
                           {speciality.name}

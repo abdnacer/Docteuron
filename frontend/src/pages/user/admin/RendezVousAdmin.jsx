@@ -57,13 +57,13 @@ const RendezVousAdmin = () => {
           <tbody>
             {getDataRender.map((rendezVous, index) => (
               <tr key={index} className="bg-white border-b dark:bg-[#fff] dark:border-b">
-                <td className="px-6 py-4 text-center">{rendezVous.idDoctor.INPE}</td>
-                <td className="px-6 py-4 text-center">{rendezVous.idPatient.nameComplete}</td>
+                <td className="px-6 py-4 text-center">{rendezVous?.idDoctor?.INPE === null ? "---" : rendezVous?.idDoctor?.INPE}</td>
+                <td className="px-6 py-4 text-center">{rendezVous.idPatient.nameComplete === null ? "---" : rendezVous.idPatient.nameComplete}</td>
                 <td className="px-6 py-4 text-center">
-                  {rendezVous.idPatient.email}
+                  {rendezVous.idPatient.email === null ? '---' : rendezVous.idPatient.email}
                 </td>
-                <td className="px-6 py-4 text-center">{rendezVous.date}</td>
-                <td className="px-6 py-4 text-center">{rendezVous.heure}</td>
+                <td className="px-6 py-4 text-center">{rendezVous.date === null ? '---' : rendezVous.date}</td>
+                <td className="px-6 py-4 text-center">{rendezVous.heure === null ? '---' : rendezVous.heure}</td>
                 <td className="px-6 py-4 text-center">{rendezVous.phone === null ? "--" : rendezVous.phone}</td>
               </tr>
             ))}

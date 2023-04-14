@@ -1,6 +1,5 @@
 export const isAuth = () => {
-    const role = localStorage.getItem('role')
-
-    if(role) return JSON.parse(role)
-    else return false
-}
+  const role = JSON.parse(localStorage.getItem("user"));
+  if (role) return role.role;
+  else return false;
+};

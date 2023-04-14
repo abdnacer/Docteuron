@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import isDate from "validator/lib/isDate";
-import isMobilePhone from "validator/lib/isMobilePhone";
 import HttpException from "../../middleware/errorHandler/HttpException";
 import db from "../../resources";
 import Storage from "local-storage";
 import jwt from "jsonwebtoken";
 import env from "../../utils/validateenv";
-import mongoose from "mongoose";
 
 class ControllerRendezVous {
   public AddRendezVous = async (
@@ -84,7 +82,9 @@ class ControllerRendezVous {
         else {
           const getRendezVous = await db.RendezVous.find({
             idDoctor: findIdUser.id,
-          });
+          })
+          .populate({ path: 'idPatient', model: db.User })
+          .populate({ path: 'idDoctor', model: db.User })
           if (!getRendezVous)
             return next(new HttpException(400, "Rendez-vous Not Found"));
           else res.json(getRendezVous);

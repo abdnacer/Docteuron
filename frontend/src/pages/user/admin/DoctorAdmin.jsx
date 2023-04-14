@@ -10,6 +10,7 @@ const DoctorAdmin = () => {
     await axios
       .get("http://localhost:8080/api/user/doctor")
       .then((res) => {
+        console.log(res.data)
         setDataDoctor(res.data);
       })
       .catch((err) => {
@@ -122,22 +123,22 @@ const DoctorAdmin = () => {
                 key={index}
                 className="bg-white border-b dark:bg-[#fff] dark:border-b"
               >
-                <td className="px-6 py-4">{doctor.nameComplete}</td>
-                <td className="px-6 py-4">{doctor.phone}</td>
-                <td className="px-6 py-4">{doctor.email}</td>
-                <td className="px-6 py-4">{doctor.cin}</td>
-                <td className="px-6 py-4">{doctor.INPE}</td>
-                <td className="px-6 py-1">{doctor.residence}</td>
-                <td className="px-6 py-4">{doctor.cabinetName}</td>
-                <td className="px-6 py-4">{doctor.specialty}</td>
+                <td className="px-6 py-4">{doctor?.nameComplete}</td>
+                <td className="px-6 py-4">{doctor?.phone}</td>
+                <td className="px-6 py-4">{doctor?.email}</td>
+                <td className="px-6 py-4">{doctor?.cin}</td>
+                <td className="px-6 py-4">{doctor?.INPE}</td>
+                <td className="px-6 py-1">{doctor?.residence}</td>
+                <td className="px-6 py-4">{doctor?.cabinetName}</td>
+                <td className="px-6 py-4">{doctor?.specialty?.name}</td>
                 <td className="py-4 px-6">
                   <Button
                     class={
-                      doctor.isBanned
+                      doctor?.isBanned
                         ? "px-4 py-1 btn bg-red-600 text-white rounded"
                         : "px-4 py-1 rounded bg-[#02b3b9] text-white"
                     }
-                    btn={doctor.isBanned ? "bann" : "banned"}
+                    btn={doctor?.isBanned ? "bann" : "banned"}
                     onclick={() => BannerDoctorUser(doctor._id)}
                   />
                 </td>

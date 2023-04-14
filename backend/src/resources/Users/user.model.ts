@@ -41,7 +41,10 @@ const userSchema = new Schema<UserBody>({
   INPE: String,
   residence: String,
   cabinetName: String,
-  specialty: String,
+  specialty:  {
+    type: String,
+    ref: "Specialite",
+  },
   description: String,
   isBanned: Boolean,
   verification: Boolean,
