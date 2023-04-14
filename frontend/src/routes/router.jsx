@@ -37,7 +37,7 @@ import store from "../store/store";
 const RouterApp = () => {  
   window.addEventListener("storage", () => {
     localStorage.clear();
-    window.location.replace("http://localhost:3000/login");
+    window.location.replace("http://localhost:3000/");
   });
 
   return (

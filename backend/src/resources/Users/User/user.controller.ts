@@ -15,12 +15,23 @@ class ControllerUser {
 
     const dataDoctor = await db.User.find({
       role: role[0]._id,
-    });
+    })
+    .populate({ path: 'specialty', model: db.Specialite })
 
     if (!dataDoctor)
       return next(new HttpException(200, "Data Doctor Not Found"));
     else res.json(dataDoctor);
   };
+
+  public AfficherDetailsDoctor = async (req:Request, res:Response, next: NextFunction) => {
+    const {id} = req.params
+
+    const detailsDoctor = await db.User.findById({_id: id})
+    .populate({ path: 'specialty', model: db.Specialite })
+
+    if(!detailsDoctor) return next(new HttpException(200, 'User Not Found'))
+    else res.json(detailsDoctor)
+  }
 
   public AfficherPatient = async (
     req: Request,

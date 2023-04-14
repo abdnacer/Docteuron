@@ -16,7 +16,6 @@ class RouterRendezVous {
   private RendezVous() {
     this.router.post(
       "/rendez-vous",
-      UserPermission.User,
       RendezVousController.AddRendezVous
     );
     this.router.get(
