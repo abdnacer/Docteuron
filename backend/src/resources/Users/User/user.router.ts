@@ -16,8 +16,11 @@ class RouterUser {
   private User() {
     this.router.get(
       "/doctor",
-      UserPermission.User,
       UserController.AfficherDoctor
+    );
+    this.router.get(
+      "/details-doctor/:id",
+      UserController.AfficherDetailsDoctor
     );
     this.router.get(
       "/patient",

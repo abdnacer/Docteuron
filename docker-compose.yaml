@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+
+  api:
+    build: ./backend
+    container_name: api
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./Backend:/app
+      - /app/node_modules
+    
+  front:
+    build: ./frontend
+    container_name: front
+    ports:
+        - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+
+ 

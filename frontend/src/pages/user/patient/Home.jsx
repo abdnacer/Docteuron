@@ -54,7 +54,7 @@ const Home = () => {
           <h5 className="mb-2 text-2xl font-semibold tracking-tight text-center text-gray-900 dark:text-black">
             Créez votre compte
           </h5>
-          <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+          <p className="mb-3 font-normal text-xl mt-4 text-gray-500 dark:text-gray-400">
             En quelques clics, directement depuis notre site internet ou en
             téléchargeant notre application.
           </p>
@@ -68,7 +68,7 @@ const Home = () => {
           <h5 className="mb-2 text-2xl text-center font-semibold tracking-tight text-gray-900 dark:text-black">
             Réservez votre RDV
           </h5>
-          <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+          <p className="mb-3 font-normal mt-4 text-xl text-gray-500 dark:text-gray-400">
             Auprès du professionnel de santé de votre choix, en fonction de vos
             disponibilités.
           </p>
@@ -84,7 +84,7 @@ const Home = () => {
               Effectuez votre consultation
             </h5>
           </a>
-          <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+          <p className="mb-3 font-normal mt-4 text-xl text-gray-500 dark:text-gray-400">
             En cabinet , à domicile , comme vous le souhaitez !
           </p>
         </div>
@@ -92,7 +92,7 @@ const Home = () => {
 
       <div>
         <h1 className="text-[#02b3b9] text-center mt-10 text-3xl">
-          Les praticiens dans votre région
+          Les praticiens au Maroc
         </h1>
 
         <div className="flex justify-center my-10  flex-wrap gap-4 m-4">
