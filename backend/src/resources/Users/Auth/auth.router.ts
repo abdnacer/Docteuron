@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import errorMiddleware from "../../../middleware/errorHandler/error.middlewre";
 import AuthController from "./auth.controller";
 // import Permission Middleware
-import AuthPermission from "../../../middleware/Permission/authPermission";
 import UserPermission from "../../../middleware/Permission/userPermission";
 
 class RouterAuth {
@@ -21,7 +20,6 @@ class RouterAuth {
     );
     this.router.post(
       "/register-doctor",
-      AuthPermission.Auth,
       AuthController.RegisterDoctor
     );
     this.router.get("/verify-email/:token", AuthController.VerifyEmail);
@@ -33,17 +31,14 @@ class RouterAuth {
     );
     this.router.post(
       "/forgot-Password",
-      AuthPermission.Auth,
       AuthController.ForgotPassword
     );
     this.router.get(
       "/verify-forgot-password/:token",
-      AuthPermission.Auth,
       AuthController.VerifyForgotPassword
     );
     this.router.post(
       "/form-forgot-password",
-      AuthPermission.Auth,
       AuthController.FormForgotPassword
     );
     this.router.get("/logout", UserPermission.User, AuthController.Logout);

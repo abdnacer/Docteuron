@@ -17,12 +17,10 @@ class RouterSpecialite {
   private Specialite() {
     this.router.post(
       "/specialite",
-      AuthPermission.Auth,
       SpecialiteController.addSpecialite
     );
     this.router.get(
       "/specialite",
-      AuthPermission.Auth,
       SpecialiteController.afficherSpecialite
     );
     this.router.get(

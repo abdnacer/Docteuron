@@ -17,7 +17,7 @@ const Dashboard = () => {
   const logout = () => {
     localStorage.clear()
     dispatch(LOGOUT());
-    window.location.replace('http://localhost:3000/login')
+    window.location.replace('http://localhost:3000/')
   };
 
   const role = JSON.parse(localStorage.getItem("user"));
